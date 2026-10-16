@@ -5,17 +5,18 @@ st.set_page_config(page_title="AI Agency Engine Pro", page_icon="🚀", layout="
 st.title("🚀 E-commerce AI Marketing Agency Engine")
 st.caption("Complete Campaign: Reel Script, Caption, Ad Copy, Image Prompts & Outreach DM!")
 
-# Securely load API key from hidden secrets or sidebar fallback
 api_key = st.secrets.get("GROQ_API_KEY", None)
+secret_passcode = st.secrets.get("APP_PASSCODE", "vip2026")
 
 with st.sidebar:
-    st.header("Security & Access")
-    if not api_key:
-        api_key = st.text_input("Groq API Key Din:", type="password")
-    else:
-        st.success("API Key is hidden")
+    st.header("🔒 Security & Access")
+    user_pass = st.text_input("🔑 Enter VIP Passcode:", type="password")
+    
+    if user_pass != secret_passcode:
+        st.warning("⚠️ অ্যাপটি ব্যবহার করতে সঠিক পাসকোড দিন!")
+        st.stop()  # পাসওয়ার্ড না মিললে অ্যাপ এখানেই থেমে যাবে, নিচে আর কিছুই কাজ করবে না!
         
-    access_code = st.text_input("🔑 Client Passcode (Optional):", type="password", help="Set a code if sharing publicly")
+    st.success("✅ Access Granted!")
 
     selected_model = None
     if api_key:
@@ -31,14 +32,14 @@ with st.sidebar:
                 if "120b" in m or "70b" in m or "qwen" in m:
                     default_ix = i
                     break
-            selected_model = st.selectbox("AI Brain:", text_models, index=default_ix)
+            selected_model = st.selectbox("🧠 AI Brain:", text_models, index=default_ix)
         except Exception:
             st.error("Invalid API Key!")
 
-# Main UI
+# Main UI (পাসওয়ার্ড মিললেই কেবল নিচের অংশ দেখা যাবে!)
 col1, col2 = st.columns(2)
 with col1:
-    product_name = st.text_input("Product-er Nam:", placeholder="e.g. Hydrating Lip Gloss")
+    product_name = st.text_input("📦 Product-er Nam:", placeholder="e.g. Hydrating Lip Gloss")
     language = st.selectbox("🌍 Language / Bhasha:", ["English", "Italian", "Bengali (Banglish)"])
 with col2:
     brand_tone = st.selectbox("🎭 Brand Tone / Vibe:", ["Luxury & Aesthetic ✨", "Trendy & Gen-Z 🔥", "Warm & Friendly 😊", "Direct & High-Converting 🎯"])
@@ -47,9 +48,6 @@ with col2:
 key_features = st.text_area("📝 Key Benefits / Details:", placeholder="e.g. Non-sticky, mirror shine, vitamin E infused, lasts 8 hours")
 
 if st.button("✨ Generate Full Agency Package 🚀", use_container_width=True):
-    if not api_key or not selected_model:
-        st.warning("API Key pawa jayni!")
-        st.stop()
     if not product_name:
         st.error("Product-er nam likhun!")
         st.stop()
