@@ -3,21 +3,26 @@ from groq import Groq
 
 st.set_page_config(page_title="AI Agency Engine Pro", page_icon="🚀", layout="wide")
 st.title("🚀 E-commerce AI Marketing Agency Engine")
-st.caption("Complete Campaign: Reel Script, Caption, Ad Copy, Image Prompts & Outreach DM!")
 
-api_key = st.secrets.get("GROQ_API_KEY", None)
+# --- HARD PASSCODE LOCK ON MAIN SCREEN ---
 secret_passcode = st.secrets.get("APP_PASSCODE", "vip2026")
+user_pass = st.text_input("🔒 Enter VIP Passcode to Unlock App:", type="password")
+
+if user_pass != secret_passcode:
+    st.warning("⛔ App-ti lock kora ache! Sothik passcode diye Enter chapun.")
+    st.stop()
+
+st.success("✅ Access Granted! Welcome back.")
+st.divider()
+
+# Load API key
+api_key = st.secrets.get("GROQ_API_KEY", None)
 
 with st.sidebar:
-    st.header("🔒 Security & Access")
-    user_pass = st.text_input("🔑 Enter VIP Passcode:", type="password")
+    st.header("🧠 AI Settings")
+    if not api_key:
+        api_key = st.text_input("Groq API Key Din:", type="password")
     
-    if user_pass != secret_passcode:
-        st.warning("⚠️ অ্যাপটি ব্যবহার করতে সঠিক পাসকোড দিন!")
-        st.stop()  # পাসওয়ার্ড না মিললে অ্যাপ এখানেই থেমে যাবে, নিচে আর কিছুই কাজ করবে না!
-        
-    st.success("✅ Access Granted!")
-
     selected_model = None
     if api_key:
         try:
@@ -32,11 +37,10 @@ with st.sidebar:
                 if "120b" in m or "70b" in m or "qwen" in m:
                     default_ix = i
                     break
-            selected_model = st.selectbox("🧠 AI Brain:", text_models, index=default_ix)
+            selected_model = st.selectbox("AI Brain:", text_models, index=default_ix)
         except Exception:
             st.error("Invalid API Key!")
 
-# Main UI (পাসওয়ার্ড মিললেই কেবল নিচের অংশ দেখা যাবে!)
 col1, col2 = st.columns(2)
 with col1:
     product_name = st.text_input("📦 Product-er Nam:", placeholder="e.g. Hydrating Lip Gloss")
@@ -62,21 +66,16 @@ if st.button("✨ Generate Full Agency Package 🚀", use_container_width=True):
     - Language: {language}
 
     Provide the output clearly structured with Markdown:
-
     ### 🎥 1. INSTAGRAM / TIKTOK REEL SCRIPT
     Table with columns: [Time/Segment, Visual Scene, On-Screen Text, Voiceover/SFX]. Include a 3-sec viral hook.
-
     ### 📱 2. VIRAL CAPTION & 15 HASHTAGS
     Engaging hook, bullet points, CTA, and 15 niche hashtags.
-
     ### 🎯 3. FACEBOOK / IG AD COPY (2 Variations)
     1 Problem-Solution style and 1 Aesthetic/Storytelling style.
-
     ### 🎨 4. AI PRODUCT PHOTOGRAPHY PROMPTS
-    2 detailed prompts (in English) for Midjourney/DALL-E to generate luxury product shoot images for this product.
-
+    2 detailed prompts (in English) for Midjourney/DALL-E to generate luxury product shoot images.
     ### 📩 5. CLIENT PITCH DM
-    A short, high-converting Instagram DM pitching this exact campaign to a brand owner in {language}.
+    A short, high-converting Instagram DM pitching this campaign to a brand owner in {language}.
     """
 
     with st.spinner("Generating 5-in-1 Agency Package..."):
@@ -85,10 +84,8 @@ if st.button("✨ Generate Full Agency Package 🚀", use_container_width=True):
             model=selected_model,
         )
         result = chat_completion.choices[0].message.content
-        
         st.success("✅ Full 5-in-1 Agency Package Ready!")
         st.markdown(result)
-        
         st.download_button(
             label="📥 Download Client Package (.txt)",
             data=result,
