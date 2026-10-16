@@ -9,11 +9,11 @@ st.caption("Complete Campaign: Reel Script, Caption, Ad Copy, Image Prompts & Ou
 api_key = st.secrets.get("GROQ_API_KEY", None)
 
 with st.sidebar:
-    st.header("🔒 Security & Access")
+    st.header("Security & Access")
     if not api_key:
         api_key = st.text_input("Groq API Key Din:", type="password")
     else:
-        st.success("✅ API Key Secured in Vault!")
+        st.success("API Key is hidden")
         
     access_code = st.text_input("🔑 Client Passcode (Optional):", type="password", help="Set a code if sharing publicly")
 
@@ -31,14 +31,14 @@ with st.sidebar:
                 if "120b" in m or "70b" in m or "qwen" in m:
                     default_ix = i
                     break
-            selected_model = st.selectbox("🧠 AI Brain:", text_models, index=default_ix)
+            selected_model = st.selectbox("AI Brain:", text_models, index=default_ix)
         except Exception:
             st.error("Invalid API Key!")
 
 # Main UI
 col1, col2 = st.columns(2)
 with col1:
-    product_name = st.text_input("📦 Product-er Nam:", placeholder="e.g. Hydrating Lip Gloss")
+    product_name = st.text_input("Product-er Nam:", placeholder="e.g. Hydrating Lip Gloss")
     language = st.selectbox("🌍 Language / Bhasha:", ["English", "Italian", "Bengali (Banglish)"])
 with col2:
     brand_tone = st.selectbox("🎭 Brand Tone / Vibe:", ["Luxury & Aesthetic ✨", "Trendy & Gen-Z 🔥", "Warm & Friendly 😊", "Direct & High-Converting 🎯"])
