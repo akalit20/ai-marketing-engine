@@ -25,10 +25,10 @@ with col_lock1:
 with col_lock2:
     st.write("")
     st.write("")
-    st.link_button("💳 Get 6-Month VIP Pass (€4.99)", PAYMENT_LINK, use_container_width=True)
+    st.link_button("💳 Get 6-Month VIP Pass (€5.99)", PAYMENT_LINK, use_container_width=True)
 
 if not user_pass or user_pass not in [admin_passcode, customer_passcode]:
-    st.info("💡 **Want instant marketing campaigns for your store?** Click **'Get 6-Month VIP Pass (€4.99)'** above to unlock all 5-in-1 E-commerce tools!")
+    st.info("💡 **Want instant marketing campaigns for your store?** Click **'Get 6-Month VIP Pass (€5.99)'** above to unlock all 5-in-1 E-commerce tools!")
     st.stop()
 
 # --- API KEY ROUTING (ADMIN VS CUSTOMER) ---
