@@ -10,7 +10,7 @@ admin_passcode = st.secrets.get("APP_PASSCODE", None)
 customer_passcode = st.secrets.get("CUSTOMER_PASSCODE", None)
 
 # Gumroad link 
-PAYMENT_LINK = "https://gumroad.com"
+PAYMENT_LINK = "https://nishya0.gumroad.com/l/vlxxe"
 
 # LOCK SCREEN & MONETIZATION UI 
 col_lock1, col_lock2 = st.columns([2, 1])
